@@ -45,6 +45,7 @@ int main()
     cout<<"After:-\n";
     outputs = n.predict(in).T().to2DVector();
     idx = 0;
+    double accuracy;
     for(auto j:outputs)
     {
         int k = 10;
@@ -55,6 +56,10 @@ int main()
                 mx = j[i];
                 ans = i;
             }
+        accuracy+=(ans==testoutput[idx]);
         cout<<"Predicted:"<<ans<<' '<<"Actual:"<<testoutput[idx++]<<'\n';
     }
+    accuracy/=1.*outputs.size();
+    accuracy*=100;
+    cout<<"Accuracy:"<<accuracy<<"%"<<endl;
 }

@@ -76,6 +76,7 @@ public:
     {
         Matrix ans(m.n,m.m);
         for(int i=0;i<m.n;i++)
+            #pragma omp parallel for
             for(int j=0;j<m.m;j++)
             {
                 ans[i][j] = val*m[i][j];
@@ -86,6 +87,7 @@ public:
     {
         Matrix ans(m.n,m.m);
         for(int i=0;i<m.n;i++)
+            #pragma omp parallel for
             for(int j=0;j<m.m;j++)
             {
                 ans[i][j] = val*m[i][j];
@@ -102,6 +104,7 @@ public:
         {
             for(int j=0;j<b.m;j++)
             {
+            #pragma omp parallel for
                 for(int k=0;k<t;k++)
                 {
                     ans[i][j] += a[i][k]*b[k][j];
@@ -113,6 +116,7 @@ public:
     template<typename T> Matrix friend operator +(const T &val,const Matrix &m)
     {
         Matrix ans(m.n,m.m);
+        #pragma omp parallel for
         for(int i=0;i<m.n;i++)
             for(int j=0;j<m.m;j++)
             {
@@ -123,6 +127,7 @@ public:
     template<typename T> Matrix friend operator +(const Matrix &m,const T &val)
     {
         Matrix ans(m.n,m.m);
+        #pragma omp parallel for
         for(int i=0;i<m.n;i++)
             for(int j=0;j<m.m;j++)
             {
@@ -134,7 +139,8 @@ public:
     {
         Matrix &a = *this;
         assert(a.n==b.n&&a.m==b.m);
-        Matrix ans(a.n,a.m);
+        Matrix ans(a.n,a.m);    
+        #pragma omp parallel for
         for(int i=0;i<ans.n;i++)
         {
             for(int j=0;j<ans.m;j++)
@@ -147,6 +153,7 @@ public:
     template<typename T> Matrix friend operator -(const T &val,const Matrix &m)
     {
         Matrix ans(m.n,m.m);
+        #pragma omp parallel for
         for(int i=0;i<m.n;i++)
             for(int j=0;j<m.m;j++)
             {
@@ -157,6 +164,7 @@ public:
     template<typename T> Matrix friend operator -(const Matrix &m,const T &val)
     {
         Matrix ans(m.n,m.m);
+        #pragma omp parallel for
         for(int i=0;i<m.n;i++)
             for(int j=0;j<m.m;j++)
             {
@@ -169,6 +177,7 @@ public:
         Matrix &a = *this;
         assert(a.n==b.n&&a.m==b.m);
         Matrix ans(a.n,a.m);
+        #pragma omp parallel for
         for(int i=0;i<ans.n;i++)
         {
             for(int j=0;j<ans.m;j++)
@@ -181,6 +190,7 @@ public:
     Matrix friend operator - (const Matrix &a)
     {
         Matrix ans(a.n,a.m);
+        #pragma omp parallel for
         for(int i=0;i<ans.n;i++)
         {
             for(int j=0;j<ans.m;j++)
@@ -193,6 +203,7 @@ public:
     template<typename T> Matrix friend operator /(const Matrix &m,const T &val)
     {
         Matrix ans(m.n,m.m);
+        #pragma omp parallel for
         for(int i=0;i<m.n;i++)
             for(int j=0;j<m.m;j++)
             {
@@ -204,6 +215,7 @@ public:
     {
         assert(a.n==b.n&&a.m==b.m);
         Matrix ans = a;
+        #pragma omp parallel for
         for(int i=0;i<ans.n;i++)
             for(int j=0;j<ans.m;j++)
                 ans[i][j]*=b[i][j];

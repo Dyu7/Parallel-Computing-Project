@@ -4,6 +4,18 @@
 #include<cmath>
 #include<iostream>
 using namespace std;
+#define PBSTR "||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||"
+#define PBWIDTH 60
+void printProgress (double percentage)
+{
+    #ifndef LOCAL_TESTING
+    int val = (int) (percentage * 100);
+    int lpad = (int) (percentage * PBWIDTH);
+    int rpad = PBWIDTH - lpad;
+    printf ("\r%3d%% [%.*s%*s]", val, lpad, PBSTR, rpad, "");
+    fflush (stdout);
+    #endif
+}
 class NeuralNetwork{
     int inputsize,outputsize;
     double alpha;
@@ -117,8 +129,9 @@ public:
     }
     template<typename T> void train(T &inputs, T &results, int iters=100000)
     {
-        while(iters--)
+        for(int iter=0;iter<iters;iter++)
         {
+            printProgress(1.*iter/iters);
             Matrix targets(results);
             Matrix tmp(inputs);
             int numlayers = layersizes.size();
@@ -148,6 +161,7 @@ public:
                 outputs = layerdata.back();
             }
         }
+        cout<<endl;
     }
 };
 const vector<double(*)(double)> NeuralNetwork::act_func_pool = {NeuralNetwork::sigmoid,NeuralNetwork::tanh,NeuralNetwork::relu,NeuralNetwork::nil};
