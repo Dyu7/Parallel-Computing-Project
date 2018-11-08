@@ -1,1 +1,1 @@
-# Parallel_Computing_Project
+# Parallel-Computing-Project
