@@ -2,6 +2,8 @@
 #include<vector>
 #include<random>
 #include<cassert>
+#include<iostream>
+#include "kernel.cu"
 class Matrix{
     std::vector<std::vector<double> > data;
     int _n,_m;
@@ -96,19 +98,20 @@ public:
     {
         Matrix &a = *this;
         assert(a.m==b.n);
-        Matrix ans(a.n,b.m);
-        int t = a.m;
-        for(int i=0;i<a.n;i++)
-        {
-            for(int j=0;j<b.m;j++)
-            {
-                for(int k=0;k<t;k++)
-                {
-                    ans[i][j] += a[i][k]*b[k][j];
-                }
-            }
-        }
-        return ans;
+        return par_mat_mult(a,b);
+        // Matrix ans(a.n,b.m);
+        // int t = a.m;
+        // for(int i=0;i<a.n;i++)
+        // {
+        //     for(int j=0;j<b.m;j++)
+        //     {
+        //         for(int k=0;k<t;k++)
+        //         {
+        //             ans[i][j] += a[i][k]*b[k][j];
+        //         }
+        //     }
+        // }
+        // return ans;
     }
     template<typename T> Matrix friend operator +(const T &val,const Matrix &m)
     {
@@ -242,6 +245,14 @@ public:
             {
                 data[i][j] = func(data[i][j]);
             }
+    }
+    void print(){
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                std::cout<<data[i][j]<<" ";
+            }
+            std::cout<<std::endl;
+        }
     }
     Matrix friend coladd(Matrix &a, Matrix &b)
     {
