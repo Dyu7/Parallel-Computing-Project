@@ -4,6 +4,7 @@
 using namespace std;
 int main()
 {
+    initiate();
     int hidden = 32, hidden2 = 20, iters = 1000, numsamples = 20;
     vector<vector<double> > testinput;
     read_Mnist(testinput);

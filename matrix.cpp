@@ -98,7 +98,8 @@ public:
     {
         Matrix &a = *this;
         assert(a.m==b.n);
-        return par_mat_mult(a,b);
+        Matrix lul = par_mat_mult(a,b);
+        return lul;
         // Matrix ans(a.n,b.m);
         // int t = a.m;
         // for(int i=0;i<a.n;i++)
@@ -111,7 +112,26 @@ public:
         //         }
         //     }
         // }
-        // return ans;
+        // if(ans.data!=lul.data)
+        // {
+        //     for(auto &i:lul.data)
+        //     {
+        //         for(auto &j:i)
+        //         {
+        //             std::cout<<j<<" ";
+        //         }
+        //         std::cout<<std::endl;
+        //     }
+        //     std::cout<<"\n\n";
+        //     for(auto &i:ans.data)
+        //     {
+        //         for(auto &j:i)
+        //         {
+        //             std::cout<<j<<" ";
+        //         }
+        //         std::cout<<std::endl;
+        //     }
+        // }
     }
     template<typename T> Matrix friend operator +(const T &val,const Matrix &m)
     {

@@ -17,7 +17,7 @@ int ReverseInt (int i)
 
 void read_Mnist(vector<vector<double> > &vec)
 {
-    string filename = "train-images-idx3-ubyte";
+    string filename = "MNISTtrain.dataset";
     ifstream file (filename.c_str(), ios::binary);
     if (file.is_open())
     {
@@ -52,7 +52,7 @@ void read_Mnist(vector<vector<double> > &vec)
 
 void read_Mnist_Label(vector<double> &vec)
 {
-    string filename = "train-labels-idx1-ubyte";
+    string filename = "MNISTlabel.dataset";
     ifstream file (filename.c_str(), ios::binary|ios::in);
     if (file.is_open())
     {

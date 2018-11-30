@@ -4,7 +4,7 @@ using namespace std;
 int main()
 {
     initiate();
-    int n=400,m=400;
+    int n=300,m=45;
     Matrix A(n,m),B(m,n);
     A.randomize();
     B.randomize();
@@ -33,7 +33,7 @@ int main()
     Matrix ch(n,n);
 
     cudaEventRecord(start_seq, NULL);
-
+    double te=0;
     for(int i=0;i<n;i++){
         for(int j=0;j<n;j++){
             ch[i][j]=0;
@@ -41,6 +41,7 @@ int main()
                 ch[i][j]+=A[i][k]*B[k][j];
             }
             double error=abs(ch[i][j]-M[i][j]);
+            te+=error;
             // cout<<error<<endl;
             if(error>1e-8){
                 cout<<"Error found at: "<<i<<" "<<j<<endl;
@@ -56,6 +57,8 @@ int main()
 
 
     cout<<"Elements of both matrices are within tolerance limit! Success!"<<endl;
+
+    cout<<te<<endl;
     // ch.print();
     // M.print();
 }
