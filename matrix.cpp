@@ -94,44 +94,31 @@ public:
             }
         return ans;
     }
+    const Matrix seqmult(const Matrix &b)
+    {
+        Matrix &a = *this;
+        assert(a.m==b.n);
+        Matrix ans(a.n,b.m);
+        int t = a.m;
+        for(int i=0;i<a.n;i++)
+        {
+            for(int j=0;j<b.m;j++)
+            {
+                for(int k=0;k<t;k++)
+                {
+                    ans[i][j] += a[i][k]*b[k][j];
+                }
+            }
+        }
+        return ans;
+    }
     const Matrix operator * (const Matrix &b)
     {
+        // return seqmult(b);
         Matrix &a = *this;
         assert(a.m==b.n);
         Matrix lul = par_mat_mult(a,b);
         return lul;
-        // Matrix ans(a.n,b.m);
-        // int t = a.m;
-        // for(int i=0;i<a.n;i++)
-        // {
-        //     for(int j=0;j<b.m;j++)
-        //     {
-        //         for(int k=0;k<t;k++)
-        //         {
-        //             ans[i][j] += a[i][k]*b[k][j];
-        //         }
-        //     }
-        // }
-        // if(ans.data!=lul.data)
-        // {
-        //     for(auto &i:lul.data)
-        //     {
-        //         for(auto &j:i)
-        //         {
-        //             std::cout<<j<<" ";
-        //         }
-        //         std::cout<<std::endl;
-        //     }
-        //     std::cout<<"\n\n";
-        //     for(auto &i:ans.data)
-        //     {
-        //         for(auto &j:i)
-        //         {
-        //             std::cout<<j<<" ";
-        //         }
-        //         std::cout<<std::endl;
-        //     }
-        // }
     }
     template<typename T> Matrix friend operator +(const T &val,const Matrix &m)
     {
