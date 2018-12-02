@@ -24,6 +24,24 @@ matrixMulCPU(double *C, const double *A, const double *B, unsigned int hA, unsig
             C[i * wB + j] = (double)sum;
         }
 }
+// Device variables
+double *d_A,*d_B,*d_C;
+double *h_CUBLAS;
+void initialise_memory(int maxn,int maxy){
+    int mem_size = maxn * maxy * sizeof(double);
+    cudaMallocManaged(&d_A,mem_size);
+    cudaMallocManaged(&d_B,mem_size);
+    // cudaMallocManaged(&d_C,mem_size);
+
+    cudaMalloc((void **) &d_C, mem_size);   
+    h_CUBLAS = (double *) malloc(mem_size);
+}
+void free_memory(){
+    cudaFree(d_A);
+    cudaFree(d_B);
+    cudaFree(d_C);    
+    free(h_CUBLAS);
+}
 template<typename T> T par_mat_mult(const T& h_A,const T& h_B){
     // cudaEvent_t start;
     // cudaEventCreate(&start);
@@ -32,14 +50,10 @@ template<typename T> T par_mat_mult(const T& h_A,const T& h_B){
     // cudaEventCreate(&stop);
     // cudaEventRecord(start, NULL);
 
-	// Host variables
-	double *d_A,*d_B,*d_C;
-
 	// Allocating Host Memory
 	int size_A = h_A.n * h_A.m, size_B = h_B.n * h_B.m;
 	int mem_size_A = size_A * sizeof(double), mem_size_B = size_B * sizeof(double);
-	cudaMallocManaged(&d_A,mem_size_B);
-	cudaMallocManaged(&d_B,mem_size_B);
+
     for(int i = 0; i < h_A.n; i++){
     	for(int j = 0;j < h_A.m; j++){
     		d_A[i * h_A.m + j] = h_A[i][j];
@@ -53,16 +67,14 @@ template<typename T> T par_mat_mult(const T& h_A,const T& h_B){
 
 
 	int size_C = h_A.n * h_B.m;
-	int mem_size_C = size_C * sizeof(double);
-	cudaMalloc((void **) &d_C, mem_size_C);
-    double *h_CUBLAS = (double *) malloc(mem_size_C);	
+    int mem_size_C = size_C * sizeof(double);
+    	
 
 
     const double alpha = 1.0;
     const double beta  = 0.0;
 
-    
-    cublasDgemm(handle, CUBLAS_OP_N, CUBLAS_OP_N, h_B.m, h_A.n, h_A.m, &alpha, d_B, h_B.m, d_A, h_A.m, &beta, d_C, h_B.m);	
+    cublasDgemm(handle, CUBLAS_OP_N, CUBLAS_OP_N, h_B.m, h_A.n, h_A.m, &alpha, d_B, h_B.m, d_A, h_A.m, &beta, d_C, h_B.m);  
 
 
 
@@ -82,8 +94,5 @@ template<typename T> T par_mat_mult(const T& h_A,const T& h_B){
     // cudaEventElapsedTime(&msecTotal, start, stop);
     // std::cout<<msecTotal<<std::endl;
     
-    cudaFree(d_A);
-    cudaFree(d_B);
-    cudaFree(d_C);
     return result;
 }

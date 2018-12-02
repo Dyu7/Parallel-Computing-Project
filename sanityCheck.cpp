@@ -5,6 +5,7 @@ int main()
 {
     initiate();
     int n=300,m=45;
+    initialise_memory(max(n,m)+100,max(n,m)+100);
     Matrix A(n,m),B(m,n);
     A.randomize();
     B.randomize();
@@ -59,6 +60,7 @@ int main()
     cout<<"Elements of both matrices are within tolerance limit! Success!"<<endl;
 
     cout<<te<<endl;
-    // ch.print();
-    // M.print();
+    free_memory();
+    ch.print();
+    M.print();
 }

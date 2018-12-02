@@ -1,6 +1,7 @@
 #include "nn.cpp"
 #include "readMNIST.cpp"
-#include<bits/stdc++.h>
+#include<bits/stdc++.h> 
+#include "kernel.cu"
 using namespace std;
 int main()
 {
@@ -23,6 +24,10 @@ int main()
     }
     // out = out.T();
     NeuralNetwork n(input,output,1);
+
+    //memory for cuda
+    initialise_memory(max(input,output)+5000,max(input,output)+5000);
+    
     n.addLayer(hidden,NeuralNetwork::SIGMOID); 
     // n.addLayer(hidden2,NeuralNetwork::RELU);
     // n.addLayer(hidden2,NeuralNetwork::NIL);
@@ -58,4 +63,5 @@ int main()
             }
         cout<<"Predicted:"<<ans<<' '<<"Actual:"<<testoutput[idx++]<<'\n';
     }
+    free_memory();
 }
