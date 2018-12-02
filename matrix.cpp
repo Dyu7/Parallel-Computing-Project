@@ -114,11 +114,14 @@ public:
     }
     const Matrix operator * (const Matrix &b)
     {
-        // return seqmult(b);
+        #ifndef parallel
+        return seqmult(b);
+        #else
         Matrix &a = *this;
         assert(a.m==b.n);
         Matrix lul = par_mat_mult(a,b);
         return lul;
+        #endif
     }
     template<typename T> Matrix friend operator +(const T &val,const Matrix &m)
     {
