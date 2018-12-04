@@ -21,7 +21,7 @@ void readData(vector<vector<double> > &in, vector<double> &out)
 int main()
 {
     initiate();
-    int hidden = 32, hidden2 = 20, iters = 100000, numsamples = 150;
+    int hidden = 32, hidden2 = 20, iters = 1000, numsamples = 150;
     vector<vector<double> > testinput;
     vector<double> testoutput;
     readData(testinput,testoutput);
@@ -35,7 +35,7 @@ int main()
         out[0][i] = out[1][i] = out[2][i] = 0;
         out[testoutput[i]][i] = 1;
     }
-    NeuralNetwork n(input,output,1);
+    NeuralNetwork n(input,output,0.05);
     //memory for cuda
     initialise_memory(max({input,output,numsamples,hidden2,hidden})+2,max({input,output,numsamples,hidden2,hidden})+5);
     
@@ -59,7 +59,6 @@ int main()
         }
         cout<<"Predicted:"<<ans<<' '<<"Actual:"<<testoutput[idx++]<<'\n';
     }
-    cout<<"GELLO"<<endl;
     n.train(in,out,iters);
     cout<<"After:-\n";
     outputs = n.predict(in).T().to2DVector();

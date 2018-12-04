@@ -1,4 +1,4 @@
-#define parallel
+// #define parallel
 #include "nn.cpp"
 #include "readMNIST.cpp"
 #include<bits/stdc++.h> 
@@ -7,7 +7,7 @@ using namespace std;
 int main()
 {
     initiate();
-    int hidden = 32, hidden2 = 20, iters = 10000, numsamples = 200;
+    int hidden = 32, hidden2 = 20, iters = 10000, numsamples = 100;
     vector<vector<double> > testinput;
     read_Mnist(testinput);
     vector<double> testoutput;

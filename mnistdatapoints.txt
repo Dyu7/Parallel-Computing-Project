@@ -1,0 +1,17 @@
+GPU
+learning_rate Number_of_samples Iterations Accuracy% time
+1             50                100        42%       3.749s
+1             50                1000       92%       12.483s
+1             100               1000       89%       17.526s
+1             100               10000      90%       143.580s
+1             200               1000       77%       24.538s
+1             200               10000      90%       225.242s
+
+CPU
+learning_rate Number_of_samples Iterations Accuracy% time
+1             50                100        38%       14.543s
+1             50                1000       98%       129.912s
+1             100               1000       81%       246.142s
+1             100               10000      96%       2284.952s
+1             200               1000       73%       512.873s
+1             200               10000      92%       4789.304s
