@@ -21,7 +21,7 @@ void readData(vector<vector<double> > &in, vector<double> &out)
 int main()
 {
     initiate();
-    int hidden = 32, hidden2 = 20, iters = 1000, numsamples = 150;
+    int hidden = 32, hidden2 = 20, iters = 10000, numsamples = 150;
     vector<vector<double> > testinput;
     vector<double> testoutput;
     readData(testinput,testoutput);

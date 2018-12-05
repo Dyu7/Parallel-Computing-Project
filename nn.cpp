@@ -161,7 +161,6 @@ public:
                 outputs = layerdata.back();
             }
         }
-        cout<<endl;
     }
 };
 const vector<double(*)(double)> NeuralNetwork::act_func_pool = {NeuralNetwork::sigmoid,NeuralNetwork::tanh,NeuralNetwork::relu,NeuralNetwork::nil};

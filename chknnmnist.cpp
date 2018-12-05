@@ -7,7 +7,7 @@ using namespace std;
 int main()
 {
     initiate();
-    int hidden = 32, hidden2 = 20, iters = 10000, numsamples = 100;
+    int hidden = 32, hidden2 = 20, iters = 10000, numsamples = 50;
     vector<vector<double> > testinput;
     read_Mnist(testinput);
     vector<double> testoutput;
