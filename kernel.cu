@@ -4,7 +4,6 @@
 cublasHandle_t handle;
 void initiate(){
 	cublasCreate(&handle);
-
 }
 void
 matrixMulCPU(double *C, const double *A, const double *B, unsigned int hA, unsigned int wA, unsigned int wB)
