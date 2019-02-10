@@ -1,10 +1,13 @@
+// #define parallel
 #include "nn.cpp"
 #include "readMNIST.cpp"
-#include<bits/stdc++.h>
+#include<bits/stdc++.h> 
+#include "kernel.cu"
 using namespace std;
 int main()
 {
-    int hidden = 32, hidden2 = 20, iters = 1000, numsamples = 20;
+    initiate();
+    int hidden = 32, hidden2 = 20, iters = 10000, numsamples = 50;
     vector<vector<double> > testinput;
     read_Mnist(testinput);
     vector<double> testoutput;
@@ -22,6 +25,10 @@ int main()
     }
     // out = out.T();
     NeuralNetwork n(input,output,1);
+
+    //memory for cuda
+    initialise_memory(max({input,output,numsamples,hidden2,hidden})+2,max({input,output,numsamples,hidden2,hidden})+5);
+    
     n.addLayer(hidden,NeuralNetwork::SIGMOID); 
     // n.addLayer(hidden2,NeuralNetwork::RELU);
     // n.addLayer(hidden2,NeuralNetwork::NIL);
@@ -45,6 +52,7 @@ int main()
     cout<<"After:-\n";
     outputs = n.predict(in).T().to2DVector();
     idx = 0;
+    int accuracy=0;
     for(auto j:outputs)
     {
         int k = 10;
@@ -55,6 +63,11 @@ int main()
                 mx = j[i];
                 ans = i;
             }
+        accuracy += (ans==testoutput[idx]);
         cout<<"Predicted:"<<ans<<' '<<"Actual:"<<testoutput[idx++]<<'\n';
     }
+    accuracy*=100;
+    accuracy/=numsamples;
+    cout<<"Accuracy:"<<accuracy<<"%"<<endl;
+    free_memory();
 }

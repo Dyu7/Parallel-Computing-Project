@@ -2,6 +2,8 @@
 #include<vector>
 #include<random>
 #include<cassert>
+#include<iostream>
+#include "kernel.cu"
 class Matrix{
     std::vector<std::vector<double> > data;
     int _n,_m;
@@ -92,7 +94,7 @@ public:
             }
         return ans;
     }
-    const Matrix operator * (const Matrix &b)
+    const Matrix seqmult(const Matrix &b)
     {
         Matrix &a = *this;
         assert(a.m==b.n);
@@ -109,6 +111,17 @@ public:
             }
         }
         return ans;
+    }
+    const Matrix operator * (const Matrix &b)
+    {
+        #ifndef parallel
+        return seqmult(b);
+        #else
+        Matrix &a = *this;
+        assert(a.m==b.n);
+        Matrix lul = par_mat_mult(a,b);
+        return lul;
+        #endif
     }
     template<typename T> Matrix friend operator +(const T &val,const Matrix &m)
     {
@@ -242,6 +255,14 @@ public:
             {
                 data[i][j] = func(data[i][j]);
             }
+    }
+    void print(){
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                std::cout<<data[i][j]<<" ";
+            }
+            std::cout<<std::endl;
+        }
     }
     Matrix friend coladd(Matrix &a, Matrix &b)
     {
